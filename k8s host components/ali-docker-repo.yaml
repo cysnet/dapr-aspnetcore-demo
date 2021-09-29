@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+ name: ali-key
+type: kubernetes.io/dockerconfigjson
+data:
+ .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJyZWdpc3RyeS5jbi1iZWlqaW5nLmFsaXl1bmNzLmNvbSI6IHsKCQkJImF1dGgiOiAiNlptSTVMaUE1NHV1T2pGeFlYb3lkM040IgoJCX0KCX0KfQ==
+ 

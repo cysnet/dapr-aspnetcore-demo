@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "backend"
+        dapr.io/app-port: "5000"
+    spec:
+      imagePullSecrets:
+      - name: ali-key
+      containers:
+      - name: backend
+        image: registry.cn-beijing.aliyuncs.com/chester-dapr/backend:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: Always
+
