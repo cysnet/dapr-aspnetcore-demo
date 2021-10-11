@@ -31,7 +31,8 @@ namespace FrontEnd
                 //    var secretDescriptors = new List<DaprSecretDescriptor> { new DaprSecretDescriptor("RabbitMQConnectStr") };
                 //    config.AddDaprSecretStore("secrets01", secretDescriptors, daprClient);
                 //})
-                //.ConfigureAppConfiguration((ht,co)=> {
+                //.ConfigureAppConfiguration((ht, co) =>
+                //{
                 //    ht.Configuration = co.Build();
                 //})
                 .ConfigureWebHostDefaults(webBuilder =>

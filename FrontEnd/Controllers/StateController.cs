@@ -73,7 +73,7 @@ namespace FrontEnd.Controllers
 
 
         // 从绑定获取一个值，健值name从路由模板获取
-        [HttpGet("frombinding/{name}")]
+        [HttpGet("fromState/{name}")]
         public async Task<ActionResult> GetFromBindingAsync([FromState("statestore", "name")] StateEntry<string> state)
         {
             return Ok(state.Value);
@@ -81,7 +81,7 @@ namespace FrontEnd.Controllers
 
 
         // 根据绑定获取并修改值，健值name从路由模板获取
-        [HttpPost("withbinding/{name}")]
+        [HttpPost("fromState/{name}")]
         public async Task<ActionResult> PostWithBindingAsync([FromState("statestore", "name")] StateEntry<string> state)
         {
             state.Value = Guid.NewGuid().ToString();

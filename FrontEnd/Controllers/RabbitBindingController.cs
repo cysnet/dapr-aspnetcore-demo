@@ -31,10 +31,18 @@ namespace FrontEnd.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetAsync([FromServices]DaprClient daprClient)
+        [HttpGet("output")]
+        public async Task<ActionResult> OutputAsync([FromServices]DaprClient daprClient)
         {
-            await daprClient.InvokeBindingAsync("RabbitBinding", "create", "9999999");
+            await daprClient.InvokeBindingAsync("RabbitBinding_output", "create", "9999999");
+            return Ok();
+        }
+
+
+        [HttpPost("corn")]
+        public ActionResult Corn()
+        {
+            _logger.LogInformation(".............corn binding............." );
             return Ok();
         }
     }

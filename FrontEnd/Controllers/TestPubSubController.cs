@@ -25,12 +25,12 @@ namespace FrontEnd.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post()
+        public async Task<ActionResult> PostAsync()
         {
             Stream stream = Request.Body;
             byte[] buffer = new byte[Request.ContentLength.Value];
             stream.Position = 0L;
-            stream.ReadAsync(buffer, 0, buffer.Length);
+            await stream.ReadAsync(buffer, 0, buffer.Length);
             string content = Encoding.UTF8.GetString(buffer);
             _logger.LogInformation("sub" + content);
             return Ok(content);
@@ -44,17 +44,28 @@ namespace FrontEnd.Controllers
             return Ok();
         }
 
-        [Topic("pubsub", "test_topic")]
-        [HttpPost("sub")]
-        public async Task<ActionResult> Sub()
+        const string PUB_SUN = "pubsub";
+        const string TOPIC_NAME = "test_topic_code";
+
+        [HttpGet("pubcode")]
+        public async Task<ActionResult> PubCodeAsync()
         {
-            Stream stream = Request.Body;
-            byte[] buffer = new byte[Request.ContentLength.Value];
-            stream.Position = 0L;
-            stream.ReadAsync(buffer, 0, buffer.Length);
-            string content = Encoding.UTF8.GetString(buffer);
-            _logger.LogInformation("testsub" + content);
-            return Ok(content);
+            var data = new WeatherForecast();
+            await _daprClient.PublishEventAsync<WeatherForecast>(PUB_SUN, TOPIC_NAME, data);
+            return Ok();
         }
+
+        //[Topic(PUB_SUN, TOPIC_NAME)]
+        //[HttpPost("subcode")]
+        //public async Task<ActionResult> Sub()
+        //{
+        //    Stream stream = Request.Body;
+        //    byte[] buffer = new byte[Request.ContentLength.Value];
+        //    stream.Position = 0L;
+        //    await stream.ReadAsync(buffer, 0, buffer.Length);
+        //    string content = Encoding.UTF8.GetString(buffer);
+        //    _logger.LogInformation("testsub" + content);
+        //    return Ok(content);
+        //}
     }
 }

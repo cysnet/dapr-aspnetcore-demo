@@ -35,8 +35,16 @@ namespace FrontEnd.Controllers
         [HttpGet("get2")]
         public async Task<ActionResult> Get2Async()
         {
-            using var daprClient = new DaprClientBuilder().Build();
+            using var daprClient = new DaprClientBuilder().UseGrpcEndpoint().Build();
             var result = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "backend", "WeatherForecast");
+            return Ok(result);
+        }
+
+        [HttpGet("ip")]
+        public async Task<ActionResult> GetIpAsync()
+        {
+            using var _daprClient = new DaprClientBuilder().Build();
+            var result = await _daprClient.InvokeMethodAsync<List<string>>(HttpMethod.Get, "backend", "api/Ip");
             return Ok(result);
         }
     }
