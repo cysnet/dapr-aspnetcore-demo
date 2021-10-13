@@ -1,3 +1,5 @@
+using BackEnd.Services;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +29,7 @@ namespace BackEnd
         {
 
             services.AddControllers();
+            services.AddGrpc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +46,8 @@ namespace BackEnd
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<HelloService>();
+
                 endpoints.MapControllers();
             });
         }

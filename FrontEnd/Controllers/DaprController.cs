@@ -1,5 +1,7 @@
 ﻿using Dapr.Client;
 
+using GrpcGreeter;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -35,7 +37,7 @@ namespace FrontEnd.Controllers
         [HttpGet("get2")]
         public async Task<ActionResult> Get2Async()
         {
-            using var daprClient = new DaprClientBuilder().UseGrpcEndpoint().Build();
+            using var daprClient = new DaprClientBuilder().Build();
             var result = await daprClient.InvokeMethodAsync<IEnumerable<WeatherForecast>>(HttpMethod.Get, "backend", "WeatherForecast");
             return Ok(result);
         }
@@ -47,5 +49,15 @@ namespace FrontEnd.Controllers
             var result = await _daprClient.InvokeMethodAsync<List<string>>(HttpMethod.Get, "backend", "api/Ip");
             return Ok(result);
         }
+
+
+        [HttpGet("grpc")]
+        public async Task<ActionResult> GrpcAsync()
+        {
+            using var daprClient = new DaprClientBuilder().Build();
+            var result = await daprClient.InvokeMethodGrpcAsync<HelloRequest, HelloReply>("backend", "sayhi", new HelloRequest { Name = "aaa" });
+            return Ok(result);
+        }
+
     }
 }
